@@ -21,13 +21,18 @@ public class PrimaryPanel extends JPanel
 	
 	private ImageButton btnRetry, btnExit;
 	private JLabel lblRetry, lblExit;
-
+	
 	private boolean bPlay; // 게임의 시작과 종료를 확인 하기 위한 변수 
+	
+	//bgm entry	
+	private ImageButton btnBgm;
+	private String bgmPath; //music path
+	private int count; //music play check count if count%2==1 play else stop
+	private BgmThread mThread;
+	private boolean isBGMPlaying;
 
 	private BtnActionListener btnActionL;
-	private BtnMouseListener btnMouseL;
-	
-	
+	private BtnMouseListener btnMouseL;	
 	
 	public PrimaryPanel()
 	{
@@ -40,6 +45,8 @@ public class PrimaryPanel extends JPanel
 		btnActionL = new BtnActionListener();
 		btnMouseL = new BtnMouseListener();
 	
+	
+		
 		gamePanel = new JPanel();
 		gamePanel.setBounds(0, 0, 430, 500);
 		gamePanel.setBackground(MyConstants.YELLOW);
@@ -153,11 +160,7 @@ public class PrimaryPanel extends JPanel
 			btnImage[i].addMouseListener(btnMouseL);
 			imagePanel.add(btnImage[i]);
 		}
-		
-		
-		
-		//////////////////////////////
-		
+
 		bestMin = bestSec = 99;
 		
 		scorePanel = new JPanel();
@@ -172,12 +175,10 @@ public class PrimaryPanel extends JPanel
 		lblScore.setForeground(Color.white);
 		scorePanel.add(lblScore);
 	    
-	    lblBest = new JLabel(new ImageIcon("puzzle\\icon_bestscore.png")); // 그림
+	    lblBest = new JLabel(new ImageIcon("puzzle\\icon_bestscore.png"));
 		lblBest.setBounds(0,0,180,74);
 	    scorePanel.add(lblBest);
-	    
-	    //////////////////////////////
-	    
+
 	    btnRetry = new ImageButton();
 	    btnRetry.setImageIcon(MyConstants.BTN_EXIT);
 	    btnRetry.setBounds(20, 380, 180, 45);
@@ -193,7 +194,6 @@ public class PrimaryPanel extends JPanel
 	    lblRetry = new JLabel("", MyConstants.TXT_RETRY, SwingConstants.CENTER);
 	    lblRetry.setBounds(40, 10, 100, 25);
 	    btnRetry.add(lblRetry);
-	    
 	    
 	    btnExit = new ImageButton();
 	    btnExit.setImageIcon(MyConstants.BTN_EXIT);
@@ -212,7 +212,27 @@ public class PrimaryPanel extends JPanel
 	    btnExit.add(lblExit);
 	    
 	    
+		//////////////////////////////
 		
+		bgmPath = "song/Reminiscence.mp3";
+		count = 0;
+		mThread = null;
+		isBGMPlaying = false;
+
+		/*btnbgm setting*/
+		btnBgm = new ImageButton(MyConstants.BGM_OFF);
+	    btnBgm.setImageIcon(MyConstants.BGM_OFF);
+	    btnBgm.setBounds(20, 10, 180, 45);
+	    btnBgm.setBackground(MyConstants.DARK);
+	    btnBgm.setLayout(null);
+	    btnBgm.setHorizontalAlignment(SwingConstants.CENTER);
+	    btnBgm.setVerticalAlignment(SwingConstants.CENTER);
+		btnBgm.setBorderPainted(false);
+		btnBgm.setFocusPainted(false);
+		btnBgm.addActionListener(btnActionL);
+	    menuPanel.add(btnBgm);
+	    
+	
 	} // PrimaryPanel()	
 
 
@@ -260,6 +280,7 @@ public class PrimaryPanel extends JPanel
 		lblTimer.setMin(0);
 		lblTimer.setSec(0);
 		//lblTimer.start();
+		bPlay = false;
 		
 		for (int i=0; i<MyConstants.IMAGE; i++)
 		{
@@ -293,18 +314,59 @@ public class PrimaryPanel extends JPanel
 	    }
     } // bestscore() -> 일단 분이 적다면 그 때 초 비교해서 초 바꾸기
      
-
-
-
-
-
-
-
+     
+     
+     
+    public void sound(int count) //노래 플레이 함수
+	{
+		if(mThread == null || mThread.getState() == Thread.State.TERMINATED)
+			mThread = new BgmThread(bgmPath);
+		
+		//if(count%2 == 0) //카운트가 0일 때
+		if(!isBGMPlaying)
+		{
+			System.out.println("Start");
+			mThread.start();
+		}
+		
+		else
+		{
+			System.out.println("End");
+			mThread.Stop();
+		}
+		
+		System.out.println("State: " + mThread.getState());
+		isBGMPlaying = !isBGMPlaying;
+	} 
+     
+     
+     
+     
+     
+     
+     
 	private class BtnActionListener implements ActionListener
 	{
 		public void actionPerformed(ActionEvent event)
 		{
 			Object obj = event.getSource();
+
+			if(obj == btnBgm && count%2==0)
+			{
+				count++;
+				btnBgm.setImageIcon(MyConstants.BGM_ON);
+				System.out.println(count);
+				sound(count); //카운트가 짝수인 경우
+				System.out.println("play music");
+			}
+			else if(obj == btnBgm && count%2==1)
+			{
+				count++;
+				btnBgm.setImageIcon(MyConstants.BGM_OFF);
+				System.out.println(count);
+				sound(count); //카운트가 짝수인 경우
+			}
+			
 			
 			
 			if (obj == btnRetry)
@@ -428,5 +490,7 @@ public class PrimaryPanel extends JPanel
 		} // mouseExited()
 		
 	} // BtnMouseListener class
+	
+
 	
 } // PrimaryPanel class

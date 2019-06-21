@@ -23,5 +23,7 @@ public class MyConstants
 	public static final ImageIcon BTN_EXIT = new ImageIcon("puzzle\\btn_exited.png");
 	public static final ImageIcon BTN_ENTER = new ImageIcon("puzzle\\btn_entered.png");
 	public static final ImageIcon TXT_EXIT = new ImageIcon("puzzle\\txt_exit.png");
-	public static final ImageIcon TXT_RETRY = new ImageIcon("puzzle\\txt_retry.png");	
+	public static final ImageIcon TXT_RETRY = new ImageIcon("puzzle\\txt_retry.png");
+	public static final ImageIcon BGM_OFF = new ImageIcon("puzzle\\bgmoff.png"); //bgm button off
+	public static final ImageIcon BGM_ON = new ImageIcon("puzzle\\bgmon.png"); //bgm button on
 } // GameConstants

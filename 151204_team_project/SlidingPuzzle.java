@@ -1,6 +1,6 @@
 import javax.swing.*;
 
-public class SlidingPuzzle
+public class SlidingPuzzle	
 {
 	public static void main(String[] args)
 	{
