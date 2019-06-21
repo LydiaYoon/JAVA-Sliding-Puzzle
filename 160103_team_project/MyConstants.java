@@ -3,6 +3,8 @@ import javax.swing.*;
 
 public class MyConstants
 {
+	// 유동적으로 바뀌지 않는 값들을 편하게 사용하기 위해 상수로 선언해놓았다.
+	
 	public static final int LEVEL = 3;
 	public static final int IMAGE = 5;
 	public static final String[] BTN_LEVEL = {"3x3", "4x4", "5x5"};
