@@ -1,4 +1,4 @@
-# Sliding-Puzzle
+# Sliding Puzzle (Java)
 자바로 제작한 간단한 퍼즐 게임  
 
 ![](./image/00_capture1.png)![](./image/00_capture2.png)![](./image/00_capture3.png)  
